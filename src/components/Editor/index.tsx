@@ -1,12 +1,8 @@
-import Box from "../Box";
+import Div from "../Objects/Div";
 
 const Editor: React.FC = () => {
   const onAdd = () => {};
-  return (
-    <div>
-      <Box />
-    </div>
-  );
+  return <Div />;
 };
 
 export default Editor;

@@ -4,7 +4,7 @@ type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
-const Box: React.FC = () => {
+const Div: React.FC = () => {
   const [nodes, setNodes] = useState<React.ReactNode[]>([]);
 
   const insertNode: (index: number) => (node: React.ReactNode) => void =
@@ -17,7 +17,7 @@ const Box: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => insertNode(0)(<Box />)}>{"Click"}</button>
+      <button onClick={() => insertNode(0)(<Div />)}>{"Click"}</button>
       {nodes}
     </div>
   );
@@ -27,4 +27,4 @@ const childTitle: ParentChild = ({ addRight }: Parameters<ParentChild>[0]) => {
   return <h1>{addRight ? "Can add right" : "Cant add right"}</h1>;
 };
 
-export default Box;
+export default Div;
