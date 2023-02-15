@@ -1,10 +1,12 @@
 import { useState } from "react";
+import EditorMode from "../../../commmon/EditorMode";
+import Text from "../Text";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
-const Div: React.FC = () => {
+const Box: React.FC = () => {
   const [nodes, setNodes] = useState<React.ReactNode[]>([]);
 
   const insertNode: (index: number) => (node: React.ReactNode) => void =
@@ -17,7 +19,9 @@ const Div: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => insertNode(0)(<Div />)}>{"Click"}</button>
+      <button onClick={() => insertNode(0)(<Text mode={EditorMode.Edit} />)}>
+        {"Click"}
+      </button>
       {nodes}
     </div>
   );
@@ -27,4 +31,4 @@ const childTitle: ParentChild = ({ addRight }: Parameters<ParentChild>[0]) => {
   return <h1>{addRight ? "Can add right" : "Cant add right"}</h1>;
 };
 
-export default Div;
+export default Box;
