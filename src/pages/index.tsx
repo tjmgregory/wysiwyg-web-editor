@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import Editor from "../components/Editor";
 
 const Home: NextPage = () => {
   return (
@@ -10,8 +10,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Create websites with drag and drop" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-      </main>
+      <Editor />
     </>
   );
 };
