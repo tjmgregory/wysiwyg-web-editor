@@ -19,10 +19,19 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   );
   const dispatch = useAppDispatch();
 
-  const insertNode = () =>
-    dispatch(addChildObject({ parentPath, object: Objects.Box }));
+  const addChild = () => {
+    const calculatedParentPath = parentPath
+      ? `${parentPath}.children.${id}`
+      : undefined;
+    dispatch(
+      addChildObject({
+        parentPath: calculatedParentPath,
+        object: Objects.Box,
+      })
+    );
+  };
 
-  return <Div addChild={insertNode}></Div>;
+  return <Div addChild={addChild}></Div>;
 };
 
 const Div: React.FC<React.PropsWithChildren<{ addChild: () => void }>> = ({

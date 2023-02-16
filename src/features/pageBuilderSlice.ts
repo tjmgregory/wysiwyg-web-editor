@@ -34,12 +34,21 @@ const pageBuilderSlice = createSlice({
     addChildObject(
       state,
       action: PayloadAction<{
-        parentPath: string;
+        parentPath?: string;
         object: Objects;
       }>
     ) {
       const box = newBox();
-      state.children = { ...state.children, [box.id]: box };
+      let parent: typeof state;
+      if (!action.payload.parentPath) {
+        parent = state;
+      } else {
+        parent = get(state, action.payload.parentPath);
+      }
+      parent.children = {
+        ...state.children,
+        [box.id]: box,
+      };
     },
   },
 });
