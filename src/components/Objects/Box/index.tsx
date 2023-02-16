@@ -1,21 +1,34 @@
+import get from "lodash.get";
 import { useState } from "react";
+import Objects from "../../../commmon/Objects";
+import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
+import { addChildObject } from "../../../features/pageBuilderSlice";
 import Text from "../Text";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
-const Box: React.FC = () => {
-  const [nodes, setNodes] = useState<React.ReactNode[]>([]);
+const Box: React.FC<{ parentPath: string; id: string }> = ({
+  parentPath,
+  id,
+}) => {
+  const state = useAppSelector(
+    (state) =>
+      get(state, parentPath)?.children[id] as typeof state["pageBuilder"]
+  );
+  const dispatch = useAppDispatch();
 
-  const insertNode: (index: number) => (node: React.ReactNode) => void =
-    (index) => (node) =>
-      setNodes((current) => {
-        const start = current.slice(0, index);
-        const end = current.slice(index);
-        return start.concat(node).concat(end);
-      });
+  const insertNode = () =>
+    dispatch(addChildObject({ parentPath, object: Objects.Box }));
 
+  return <Div addChild={insertNode}></Div>;
+};
+
+const Div: React.FC<React.PropsWithChildren<{ addChild: () => void }>> = ({
+  addChild,
+  children,
+}) => {
   return (
     <div
       style={{
@@ -23,9 +36,8 @@ const Box: React.FC = () => {
         flexDirection: "column",
       }}
     >
-      <button onClick={() => insertNode(0)(<Text />)}>{"Add Text"}</button>
-      <button onClick={() => insertNode(0)(<Box />)}>{"Add Box"}</button>
-      {nodes}
+      <button onClick={addChild}>{"Add Child"}</button>
+      {children}
     </div>
   );
 };
