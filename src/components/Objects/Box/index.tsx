@@ -1,14 +1,23 @@
 import get from "lodash.get";
 import Objects from "../../../commmon/Objects";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
-import { addChildObject } from "../../../features/pageBuilderSlice";
+import {
+  addChildObject,
+  PageBuilderState,
+} from "../../../features/pageBuilderSlice";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
+const mapObjectStateToComponentFactory =
+  (parentPath: string) =>
+  (state: PageBuilderState<Objects>): React.ReactNode => {
+    return <Box parentPath={parentPath} id={state.id} />;
+  };
+
 export const RootBox: React.FC = () => {
-  const state = useAppSelector((state) => state.pageBuilder);
+  const state = useAppSelector((state) => state.pageBuilder.root.children);
   const dispatch = useAppDispatch();
 
   const addChild = () =>
@@ -18,7 +27,11 @@ export const RootBox: React.FC = () => {
       })
     );
 
-  return <Div addChild={addChild}></Div>;
+  const mapStateToComponents = mapObjectStateToComponentFactory("root");
+  // TODO: Fix the ordering issue
+  const children = Object.values(state).map(mapStateToComponents);
+
+  return <Div addChild={addChild}>{children}</Div>;
 };
 
 const Box: React.FC<{ parentPath: string; id: string }> = ({

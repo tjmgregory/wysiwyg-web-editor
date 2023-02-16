@@ -11,11 +11,13 @@ export interface PageBuilderState<T extends Objects> {
   children: Record<string, PageBuilderState<Objects>>;
 }
 
-const initialState: PageBuilderState<Objects.Box> = {
-  id: "root",
-  object: Objects.Box,
-  props: {},
-  children: {},
+const initialState: Record<"root", PageBuilderState<Objects.Box>> = {
+  root: {
+    id: "root",
+    object: Objects.Box,
+    props: {},
+    children: {},
+  },
 };
 
 function newBox(): PageBuilderState<Objects.Box> {
@@ -39,9 +41,9 @@ const pageBuilderSlice = createSlice({
       }>
     ) {
       const box = newBox();
-      let objectState: typeof state;
+      let objectState: typeof state["root"];
       if (!action.payload.parentPath) {
-        objectState = state;
+        objectState = state.root;
       } else {
         const realParentPath = action.payload.parentPath
           .split(".")
@@ -49,7 +51,7 @@ const pageBuilderSlice = createSlice({
         objectState = get(state, realParentPath);
       }
       objectState.children = {
-        ...state.children,
+        ...objectState.children,
         [box.id]: box,
       };
     },
