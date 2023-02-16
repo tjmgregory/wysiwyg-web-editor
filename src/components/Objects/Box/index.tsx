@@ -3,6 +3,7 @@ import Objects from "../../../commmon/Objects";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
 import {
   addChildObject,
+  expandObjectPath,
   PageBuilderState,
 } from "../../../features/pageBuilderSlice";
 
@@ -38,9 +39,14 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
+  const objectPath = expandObjectPath(`${parentPath}.${id}`);
+  console.log(objectPath);
   const state = useAppSelector(
     (state) =>
-      get(state, parentPath)?.children[id] as typeof state["pageBuilder"]
+      get(
+        state,
+        `pageBuilder.${objectPath}`
+      ) as typeof state["pageBuilder"]["root"]
   );
   const dispatch = useAppDispatch();
 
@@ -52,7 +58,13 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
       })
     );
 
-  return <Div addChild={addChild}></Div>;
+  const mapStateToComponents = mapObjectStateToComponentFactory(
+    `${parentPath}.${id}`
+  );
+  // TODO: Fix the ordering issue
+  const children = Object.values(state.children).map(mapStateToComponents);
+
+  return <Div addChild={addChild}>{children}</Div>;
 };
 
 const Div: React.FC<React.PropsWithChildren<{ addChild: () => void }>> = ({

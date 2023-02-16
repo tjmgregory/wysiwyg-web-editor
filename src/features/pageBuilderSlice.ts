@@ -29,6 +29,14 @@ function newBox(): PageBuilderState<Objects.Box> {
   };
 }
 
+export function expandObjectPath(path: string) {
+  return path.split(".").join(".children.");
+}
+
+export function collapseObjectPath(path: string) {
+  return path.split(".children.").join(".");
+}
+
 const pageBuilderSlice = createSlice({
   name: "pageBuilder",
   initialState,
@@ -45,9 +53,7 @@ const pageBuilderSlice = createSlice({
       if (!action.payload.parentPath) {
         objectState = state.root;
       } else {
-        const realParentPath = action.payload.parentPath
-          .split(".")
-          .join(".children.");
+        const realParentPath = expandObjectPath(action.payload.parentPath);
         objectState = get(state, realParentPath);
       }
       objectState.children = {
