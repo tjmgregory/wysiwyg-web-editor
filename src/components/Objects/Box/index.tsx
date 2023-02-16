@@ -1,5 +1,4 @@
 import { useState } from "react";
-import EditorMode from "../../../commmon/EditorMode";
 import Text from "../Text";
 
 type ParentChild = (props: {
@@ -18,10 +17,14 @@ const Box: React.FC = () => {
       });
 
   return (
-    <div>
-      <button onClick={() => insertNode(0)(<Text mode={EditorMode.Edit} />)}>
-        {"Click"}
-      </button>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <button onClick={() => insertNode(0)(<Text />)}>{"Add Text"}</button>
+      <button onClick={() => insertNode(0)(<Box />)}>{"Add Box"}</button>
       {nodes}
     </div>
   );
