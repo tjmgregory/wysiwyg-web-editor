@@ -7,7 +7,21 @@ type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
-const Box: React.FC<{ parentPath?: string; id: string }> = ({
+export const RootBox: React.FC = () => {
+  const state = useAppSelector((state) => state.pageBuilder);
+  const dispatch = useAppDispatch();
+
+  const addChild = () =>
+    dispatch(
+      addChildObject({
+        object: Objects.Box,
+      })
+    );
+
+  return <Div addChild={addChild}></Div>;
+};
+
+const Box: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
@@ -20,7 +34,7 @@ const Box: React.FC<{ parentPath?: string; id: string }> = ({
   const addChild = () =>
     dispatch(
       addChildObject({
-        parentPath: parentPath ? `${parentPath}.children.${id}` : undefined,
+        parentPath: `${parentPath}.${id}`,
         object: Objects.Box,
       })
     );
