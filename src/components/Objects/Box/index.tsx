@@ -1,15 +1,13 @@
 import get from "lodash.get";
-import { useState } from "react";
 import Objects from "../../../commmon/Objects";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
 import { addChildObject } from "../../../features/pageBuilderSlice";
-import Text from "../Text";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
 }) => React.ReactNode;
 
-const Box: React.FC<{ parentPath: string; id: string }> = ({
+const Box: React.FC<{ parentPath?: string; id: string }> = ({
   parentPath,
   id,
 }) => {
@@ -19,17 +17,13 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   );
   const dispatch = useAppDispatch();
 
-  const addChild = () => {
-    const calculatedParentPath = parentPath
-      ? `${parentPath}.children.${id}`
-      : undefined;
+  const addChild = () =>
     dispatch(
       addChildObject({
-        parentPath: calculatedParentPath,
+        parentPath: parentPath ? `${parentPath}.children.${id}` : undefined,
         object: Objects.Box,
       })
     );
-  };
 
   return <Div addChild={addChild}></Div>;
 };

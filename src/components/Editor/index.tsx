@@ -6,7 +6,7 @@ const Editor: React.FC = () => {
   return (
     <EditorContextProvider>
       <EditorModeSwitch />
-      <Box parentPath="" id="root" />
+      <Box id="root" />
     </EditorContextProvider>
   );
 };
