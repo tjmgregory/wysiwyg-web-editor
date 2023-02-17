@@ -37,7 +37,9 @@ const initialState: Record<"root", BlockState> = {
       [initialTextId]: {
         id: initialTextId,
         block: Block.Text,
-        props: {},
+        props: {
+          variant: "h1",
+        },
       },
     },
   },
@@ -56,7 +58,9 @@ function newText(): TextBlockState {
   return {
     id: uuid(),
     block: Block.Text,
-    props: {},
+    props: {
+      variant: "p",
+    },
   };
 }
 

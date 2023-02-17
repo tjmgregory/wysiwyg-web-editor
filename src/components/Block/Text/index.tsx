@@ -1,20 +1,30 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import EditorMode from "../../../commmon/EditorMode";
 import { useEditorContext } from "../../Editor/EditorContext";
 
-export interface UserTextProps {}
-
-const Text: React.FC = () => {
-  const { editorMode } = useEditorContext();
-  return <TextOrInput editorMode={editorMode} />;
+const variantTagMap: Record<UserTextProps["variant"], React.FC> = {
+  h1: (props) => <h1 {...props} />,
+  p: (props) => <p {...props} />,
 };
 
-const TextOrInput: React.FC<{ editorMode: EditorMode }> = ({ editorMode }) => {
+export interface UserTextProps {
+  variant: "h1" | "p";
+}
+
+const Text: React.FC<UserTextProps> = ({ variant }) => {
+  const { editorMode } = useEditorContext();
+  return <TextOrInput editorMode={editorMode} variant={variant} />;
+};
+
+const TextOrInput: React.FC<UserTextProps & { editorMode: EditorMode }> = ({
+  editorMode,
+  variant,
+}) => {
   const [value, setValue] = useState("");
   if (editorMode === EditorMode.Edit) {
     return <input value={value} onChange={(e) => setValue(e.target.value)} />;
   }
-  return <h1>{value}</h1>;
+  return variantTagMap[variant]({ children: value });
 };
 
 export default Text;
