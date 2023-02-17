@@ -1,9 +1,8 @@
-import get from "lodash.get";
-import Objects from "../../../commmon/Objects";
+import Block from "../../../commmon/Block";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
-import useObjectStateSelector from "../../../commmon/useObjectStateSelector";
+import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
 import {
-  addChildObject,
+  addChildBlock,
   PageBuilderState,
 } from "../../../features/pageBuilderSlice";
 
@@ -13,7 +12,7 @@ type ParentChild = (props: {
 
 const mapObjectStateToComponentFactory =
   (parentPath: string) =>
-  (state: PageBuilderState<Objects>): React.ReactNode => {
+  (state: PageBuilderState<Block>): React.ReactNode => {
     return <Box parentPath={parentPath} id={state.id} />;
   };
 
@@ -23,8 +22,8 @@ export const RootBox: React.FC = () => {
 
   const addChild = () =>
     dispatch(
-      addChildObject({
-        object: Objects.Box,
+      addChildBlock({
+        block: Block.Box,
       })
     );
 
@@ -40,14 +39,14 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   id,
 }) => {
   const statePath = `${parentPath}.${id}`;
-  const state = useObjectStateSelector(statePath);
+  const state = useBlockStateSelector(statePath);
   const dispatch = useAppDispatch();
 
   const addChild = () =>
     dispatch(
-      addChildObject({
+      addChildBlock({
         parentPath: statePath,
-        object: Objects.Box,
+        block: Block.Box,
       })
     );
 

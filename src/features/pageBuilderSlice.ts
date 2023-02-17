@@ -1,39 +1,39 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
-import Objects from "../commmon/Objects";
-import objectsToComponents from "../commmon/ObjectsToComponents";
+import Block from "../commmon/Block";
+import blockToComponent from "../commmon/BlockToComponent";
 import get from "lodash.get";
 
-export interface PageBuilderState<T extends Objects> {
+export interface PageBuilderState<T extends Block> {
   id: string;
   object: T;
-  props: React.ComponentProps<typeof objectsToComponents[T]>;
-  children: Record<string, PageBuilderState<Objects>>;
+  props: React.ComponentProps<typeof blockToComponent[T]>;
+  children: Record<string, PageBuilderState<Block>>;
 }
 
-const initialState: Record<"root", PageBuilderState<Objects.Box>> = {
+const initialState: Record<"root", PageBuilderState<Block.Box>> = {
   root: {
     id: "root",
-    object: Objects.Box,
+    object: Block.Box,
     props: {},
     children: {},
   },
 };
 
-function newBox(): PageBuilderState<Objects.Box> {
+function newBox(): PageBuilderState<Block.Box> {
   return {
     id: uuid(),
-    object: Objects.Box,
+    object: Block.Box,
     props: {},
     children: {},
   };
 }
 
-export function expandObjectPath(path: string) {
+export function expandBlockPath(path: string) {
   return path.split(".").join(".children.");
 }
 
-export function collapseObjectPath(path: string) {
+export function collapseBlockPath(path: string) {
   return path.split(".children.").join(".");
 }
 
@@ -41,11 +41,11 @@ const pageBuilderSlice = createSlice({
   name: "pageBuilder",
   initialState,
   reducers: {
-    addChildObject(
+    addChildBlock(
       state,
       action: PayloadAction<{
         parentPath?: string;
-        object: Objects;
+        block: Block;
       }>
     ) {
       const box = newBox();
@@ -53,7 +53,7 @@ const pageBuilderSlice = createSlice({
       if (!action.payload.parentPath) {
         objectState = state.root;
       } else {
-        const realParentPath = expandObjectPath(action.payload.parentPath);
+        const realParentPath = expandBlockPath(action.payload.parentPath);
         objectState = get(state, realParentPath);
       }
       objectState.children = {
@@ -64,5 +64,5 @@ const pageBuilderSlice = createSlice({
   },
 });
 
-export const { addChildObject } = pageBuilderSlice.actions;
+export const { addChildBlock } = pageBuilderSlice.actions;
 export default pageBuilderSlice.reducer;

@@ -1,4 +1,4 @@
-import { RootBox } from "../Objects/Box";
+import { RootBox } from "../Block/Box";
 import { EditorContextProvider } from "./EditorContext";
 import EditorModeSwitch from "./EditorModeSwitch";
 
