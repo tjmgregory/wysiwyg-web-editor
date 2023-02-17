@@ -16,7 +16,13 @@ type ParentChild = (props: {
 const mapObjectStateToComponentFactory =
   (parentPath: string) =>
   (state: BlockState): React.ReactNode => {
-    return <ReduxBlock key={state.id} parentPath={parentPath} id={state.id} />;
+    return (
+      <ReduxBlockSelector
+        key={state.id}
+        parentPath={parentPath}
+        id={state.id}
+      />
+    );
   };
 
 export const RootBox: React.FC = () => {
@@ -61,7 +67,7 @@ const BlockSelector: React.FC<{
   }
 };
 
-const ReduxBlock: React.FC<{ parentPath: string; id: string }> = ({
+const ReduxBlockSelector: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
@@ -124,4 +130,4 @@ const childTitle: ParentChild = ({ addRight }: Parameters<ParentChild>[0]) => {
   return <h1>{addRight ? "Can add right" : "Cant add right"}</h1>;
 };
 
-export default ReduxBlock;
+export default ReduxBlockSelector;
