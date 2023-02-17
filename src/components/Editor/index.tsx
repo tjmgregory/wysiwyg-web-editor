@@ -1,4 +1,4 @@
-import { RootBox } from "../Block/Box/RootBox";
+import { ReduxBlockSelector } from "../Block/Box/ReduxBlockSelector";
 import { EditorContextProvider } from "./EditorContext";
 import EditorModeSwitch from "./EditorModeSwitch";
 
@@ -6,7 +6,7 @@ const Editor: React.FC = () => {
   return (
     <EditorContextProvider>
       <EditorModeSwitch />
-      <RootBox />
+      <ReduxBlockSelector key="root" statePath="root" />
     </EditorContextProvider>
   );
 };

@@ -7,8 +7,7 @@ export const mapObjectStateToComponentFactory =
     return (
       <ReduxBlockSelector
         key={state.id}
-        parentPath={parentPath}
-        id={state.id}
+        statePath={`${parentPath}.${state.id}`}
       />
     );
   };

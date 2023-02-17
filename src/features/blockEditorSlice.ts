@@ -57,10 +57,6 @@ export function expandBlockPath(path: string) {
   return path.split(".").join(".childBlocks.");
 }
 
-export function collapseBlockPath(path: string) {
-  return path.split(".childBlocks.").join(".");
-}
-
 export function stateHasChildBlocks(
   state: BlockState
 ): state is BlockState & BoxBlockState {

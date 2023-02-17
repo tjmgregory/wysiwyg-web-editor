@@ -1,11 +1,9 @@
 import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
 import { BlockSelector } from "./BlockSelector";
 
-export const ReduxBlockSelector: React.FC<{
-  parentPath: string;
-  id: string;
-}> = ({ parentPath, id }) => {
-  const statePath = `${parentPath}.${id}`;
+export const ReduxBlockSelector: React.FC<{ statePath: string }> = ({
+  statePath,
+}) => {
   const state = useBlockStateSelector(statePath);
 
   if (!state) {
