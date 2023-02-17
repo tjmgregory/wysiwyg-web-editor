@@ -29,7 +29,6 @@ const initialState: Record<"root", BlockState> = {
     block: Block.Box,
     props: {
       style: {
-        display: "block",
         backgroundColor: "hotpink",
       },
     },
