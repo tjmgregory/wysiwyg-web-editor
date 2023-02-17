@@ -45,6 +45,7 @@ function newBox(): BoxBlockState {
     childBlocks: {},
   };
 }
+
 function newText(): TextBlockState {
   return {
     id: uuid(),

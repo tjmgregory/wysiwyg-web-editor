@@ -6,7 +6,7 @@ export interface UserBoxProps {
   style?: {};
 }
 
-export const Box: React.FC<React.PropsWithChildren<UserBoxProps>> = ({
+const Box: React.FC<React.PropsWithChildren<UserBoxProps>> = ({
   style,
   children,
 }) => {
