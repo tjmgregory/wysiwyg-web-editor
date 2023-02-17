@@ -19,7 +19,10 @@ const BoxBlock: React.FC<{
 }> = ({ state, statePath }) => (
   <ReduxInteractivityLayer statePath={statePath}>
     <Box {...state.props}>
-      <ChildBlockRenderer state={state} statePath={statePath} />
+      <ChildBlockRenderer
+        childBlocks={state.childBlocks}
+        statePath={statePath}
+      />
     </Box>
   </ReduxInteractivityLayer>
 );

@@ -1,13 +1,17 @@
 import { BoxBlockState } from "../../../features/blockEditorSlice";
-import { mapObjectStateToComponentFactory } from "./mapObjectStateToComponentFactory";
+import { ReduxBlockSelector } from "./ReduxBlockSelector";
 
 export const ChildBlockRenderer: React.FC<{
-  state: BoxBlockState;
+  childBlocks: BoxBlockState["childBlocks"];
   statePath: string;
-}> = ({ state, statePath }) => {
-  const mapStateToComponents = mapObjectStateToComponentFactory(statePath);
+}> = ({ childBlocks, statePath }) => {
   // TODO: Fix the ordering issue
-  const children = Object.values(state.childBlocks).map(mapStateToComponents);
+  const children = Object.values(childBlocks).map((childBlock) => (
+    <ReduxBlockSelector
+      key={childBlock.id}
+      statePath={`${statePath}.${childBlock.id}`}
+    />
+  ));
 
-  return children;
+  return <>{children}</>;
 };
