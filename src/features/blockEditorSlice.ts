@@ -26,7 +26,13 @@ const initialState: Record<"root", BlockState> = {
   root: {
     id: "root",
     block: Block.Box,
-    props: {},
+    props: {
+      style: {
+        height: "100px",
+        width: "100px",
+        backgroundColor: "hotpink",
+      },
+    },
     childBlocks: {},
   },
 };
