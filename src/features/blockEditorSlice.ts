@@ -38,6 +38,7 @@ const initialState: Record<"root", BlockState> = {
         block: Block.Text,
         props: {
           variant: "h1",
+          value: undefined,
         },
       },
     },
@@ -59,6 +60,7 @@ function newText(): TextBlockState {
     block: Block.Text,
     props: {
       variant: "p",
+      value: undefined,
     },
   };
 }
@@ -85,17 +87,12 @@ const blockEditorSlice = createSlice({
     addChildBlock(
       state,
       action: PayloadAction<{
-        parentPath?: string;
+        parentPath: string;
         block: Block;
       }>
     ) {
-      let blockState: BlockState;
-      if (!action.payload.parentPath) {
-        blockState = state.root;
-      } else {
-        const realParentPath = expandBlockPath(action.payload.parentPath);
-        blockState = get(state, realParentPath);
-      }
+      const realParentPath = expandBlockPath(action.payload.parentPath);
+      const blockState = get(state, realParentPath);
       if (!stateHasChildBlocks(blockState)) {
         return;
       }
@@ -105,8 +102,19 @@ const blockEditorSlice = createSlice({
         [newBlock.id]: newBlock,
       };
     },
+    setProp(
+      state,
+      action: PayloadAction<{
+        statePath: string;
+        prop: { key: string; value: UserTextProps["value"] };
+      }>
+    ) {
+      const realStatePath = expandBlockPath(action.payload.statePath);
+      const blockState = get(state, realStatePath);
+      blockState.props[action.payload.prop.key] = action.payload.prop.value;
+    },
   },
 });
 
-export const { addChildBlock } = blockEditorSlice.actions;
+export const { addChildBlock, setProp } = blockEditorSlice.actions;
 export default blockEditorSlice.reducer;

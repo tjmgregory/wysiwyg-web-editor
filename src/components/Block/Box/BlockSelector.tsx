@@ -11,7 +11,7 @@ export const BlockSelector: React.FC<{
     case Block.Box:
       return <Box state={state} statePath={statePath} />;
     case Block.Text:
-      return <Text {...state.props} />;
+      return <Text state={state} statePath={statePath} />;
     default:
       return null;
   }
