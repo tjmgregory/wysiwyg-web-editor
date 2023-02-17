@@ -1,9 +1,9 @@
 import get from "lodash.get";
 import Objects from "../../../commmon/Objects";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
+import useObjectStateSelector from "../../../commmon/useObjectStateSelector";
 import {
   addChildObject,
-  expandObjectPath,
   PageBuilderState,
 } from "../../../features/pageBuilderSlice";
 
@@ -39,20 +39,14 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
-  const objectPath = expandObjectPath(`${parentPath}.${id}`);
-  console.log(objectPath);
-  const state = useAppSelector(
-    (state) =>
-      get(state, `pageBuilder.${objectPath}`) as
-        | typeof state["pageBuilder"]["root"]
-        | undefined
-  );
+  const statePath = `${parentPath}.${id}`;
+  const state = useObjectStateSelector(statePath);
   const dispatch = useAppDispatch();
 
   const addChild = () =>
     dispatch(
       addChildObject({
-        parentPath: `${parentPath}.${id}`,
+        parentPath: statePath,
         object: Objects.Box,
       })
     );
