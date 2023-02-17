@@ -31,12 +31,19 @@ const initialState: Record<"root", BlockState> = {
   },
 };
 
-function newBox(): BlockState {
+function newBox(): BoxBlockState {
   return {
     id: uuid(),
     block: Block.Box,
     props: {},
     childBlocks: {},
+  };
+}
+function newText(): TextBlockState {
+  return {
+    id: uuid(),
+    block: Block.Text,
+    props: {},
   };
 }
 
@@ -54,6 +61,11 @@ export function stateHasChildBlocks(
   return state.block === Block.Box;
 }
 
+const blockGenerator: Record<Block, () => BlockState> = {
+  [Block.Box]: newBox,
+  [Block.Text]: newText,
+};
+
 const blockEditorSlice = createSlice({
   name: "blockEditor",
   initialState,
@@ -65,7 +77,6 @@ const blockEditorSlice = createSlice({
         block: Block;
       }>
     ) {
-      const box = newBox();
       let blockState: BlockState;
       if (!action.payload.parentPath) {
         blockState = state.root;
@@ -76,9 +87,10 @@ const blockEditorSlice = createSlice({
       if (!stateHasChildBlocks(blockState)) {
         return;
       }
+      const newBlock = blockGenerator[action.payload.block]();
       blockState.childBlocks = {
         ...blockState.childBlocks,
-        [box.id]: box,
+        [newBlock.id]: newBlock,
       };
     },
   },

@@ -7,6 +7,7 @@ import {
   BoxBlockState,
   stateHasChildBlocks,
 } from "../../../features/blockEditorSlice";
+import Text from "../Text";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
@@ -35,7 +36,7 @@ export const RootBox: React.FC = () => {
   const addChild = () =>
     dispatch(
       addChildBlock({
-        block: Block.Box,
+        block: Block.Text,
       })
     );
 
@@ -53,7 +54,8 @@ const BlockSelector: React.FC<{
   switch (state.block) {
     case Block.Box:
       return <Box state={state} statePath={statePath} />;
-    // TODO: The rest of these
+    case Block.Text:
+      return <Text />;
     default:
       return null;
   }
