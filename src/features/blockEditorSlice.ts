@@ -5,27 +5,29 @@ import get from "lodash.get";
 import { UserBoxProps } from "../components/Block/Box";
 import { UserTextProps } from "../components/Block/Text";
 
-type Blocks =
-  | {
-      block: Block.Box;
-      props: UserBoxProps;
-    }
-  | {
-      block: Block.Text;
-      props: UserTextProps;
-    };
-
-export type BlockState = {
+type SharedBlockFields = {
   id: string;
-  children: Record<string, BlockState>;
-} & Blocks;
+};
+
+export type BoxBlockState = SharedBlockFields & {
+  block: Block.Box;
+  props: UserBoxProps;
+  childBlocks: Record<string, BlockState>;
+};
+
+export type TextBlockState = SharedBlockFields & {
+  block: Block.Text;
+  props: UserTextProps;
+};
+
+export type BlockState = BoxBlockState | TextBlockState;
 
 const initialState: Record<"root", BlockState> = {
   root: {
     id: "root",
     block: Block.Box,
     props: {},
-    children: {},
+    childBlocks: {},
   },
 };
 
@@ -34,16 +36,22 @@ function newBox(): BlockState {
     id: uuid(),
     block: Block.Box,
     props: {},
-    children: {},
+    childBlocks: {},
   };
 }
 
 export function expandBlockPath(path: string) {
-  return path.split(".").join(".children.");
+  return path.split(".").join(".childBlocks.");
 }
 
 export function collapseBlockPath(path: string) {
-  return path.split(".children.").join(".");
+  return path.split(".childBlocks.").join(".");
+}
+
+export function stateHasChildBlocks(
+  state: BlockState
+): state is BlockState & BoxBlockState {
+  return state.block === Block.Box;
 }
 
 const blockEditorSlice = createSlice({
@@ -58,15 +66,18 @@ const blockEditorSlice = createSlice({
       }>
     ) {
       const box = newBox();
-      let blockState: typeof state["root"];
+      let blockState: BlockState;
       if (!action.payload.parentPath) {
         blockState = state.root;
       } else {
         const realParentPath = expandBlockPath(action.payload.parentPath);
         blockState = get(state, realParentPath);
       }
-      blockState.children = {
-        ...blockState.children,
+      if (!stateHasChildBlocks(blockState)) {
+        return;
+      }
+      blockState.childBlocks = {
+        ...blockState.childBlocks,
         [box.id]: box,
       };
     },

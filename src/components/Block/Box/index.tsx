@@ -1,7 +1,12 @@
 import Block from "../../../commmon/Block";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
 import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
-import { addChildBlock, BlockState } from "../../../features/blockEditorSlice";
+import {
+  addChildBlock,
+  BlockState,
+  BoxBlockState,
+  stateHasChildBlocks,
+} from "../../../features/blockEditorSlice";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
@@ -14,8 +19,18 @@ const mapObjectStateToComponentFactory =
   };
 
 export const RootBox: React.FC = () => {
-  const state = useAppSelector((state) => state.blockEditor.root.children);
+  const state = useAppSelector((state) => {
+    if (stateHasChildBlocks(state.blockEditor.root)) {
+      return state.blockEditor.root.childBlocks;
+    }
+  });
   const dispatch = useAppDispatch();
+
+  if (!state) {
+    // TODO: Add an ability to reset the state
+    console.warn("The root block was deleted.");
+    return null;
+  }
 
   const addChild = () =>
     dispatch(
@@ -65,7 +80,7 @@ export interface UserBoxProps {
   style?: {};
 }
 
-const Box: React.FC<{ state: BlockState; statePath: string }> = ({
+const Box: React.FC<{ state: BoxBlockState; statePath: string }> = ({
   state,
   statePath,
 }) => {
@@ -73,7 +88,7 @@ const Box: React.FC<{ state: BlockState; statePath: string }> = ({
 
   const mapStateToComponents = mapObjectStateToComponentFactory(statePath);
   // TODO: Fix the ordering issue
-  const children = Object.values(state.children).map(mapStateToComponents);
+  const children = Object.values(state.childBlocks).map(mapStateToComponents);
 
   const addChild = () =>
     dispatch(
