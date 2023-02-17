@@ -9,7 +9,7 @@ type ParentChild = (props: {
 
 const mapObjectStateToComponentFactory =
   (parentPath: string) =>
-  (state: BlockState<Block>): React.ReactNode => {
+  (state: BlockState): React.ReactNode => {
     return <ReduxBlock parentPath={parentPath} id={state.id} />;
   };
 
@@ -31,21 +31,25 @@ export const RootBox: React.FC = () => {
   return <Div addChild={addChild}>{children}</Div>;
 };
 
+const BlockSelector: React.FC<{
+  state: BlockState;
+  statePath: string;
+}> = ({ state, statePath }) => {
+  switch (state.block) {
+    case Block.Box:
+      return <Box state={state} statePath={statePath} />;
+    // TODO: The rest of these
+    default:
+      return null;
+  }
+};
+
 const ReduxBlock: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
   const statePath = `${parentPath}.${id}`;
   const state = useBlockStateSelector(statePath);
-  const dispatch = useAppDispatch();
-
-  const addChild = () =>
-    dispatch(
-      addChildBlock({
-        parentPath: statePath,
-        block: Block.Box,
-      })
-    );
 
   if (!state) {
     console.warn(
@@ -54,11 +58,30 @@ const ReduxBlock: React.FC<{ parentPath: string; id: string }> = ({
     return null;
   }
 
-  const mapStateToComponents = mapObjectStateToComponentFactory(
-    `${parentPath}.${id}`
-  );
+  return <BlockSelector state={state} statePath={statePath} />;
+};
+
+export interface UserBoxProps {
+  style?: {};
+}
+
+const Box: React.FC<{ state: BlockState; statePath: string }> = ({
+  state,
+  statePath,
+}) => {
+  const dispatch = useAppDispatch();
+
+  const mapStateToComponents = mapObjectStateToComponentFactory(statePath);
   // TODO: Fix the ordering issue
   const children = Object.values(state.children).map(mapStateToComponents);
+
+  const addChild = () =>
+    dispatch(
+      addChildBlock({
+        parentPath: statePath,
+        block: Block.Box,
+      })
+    );
 
   return <Div addChild={addChild}>{children}</Div>;
 };

@@ -2,6 +2,8 @@ import { useState } from "react";
 import EditorMode from "../../../commmon/EditorMode";
 import { useEditorContext } from "../../Editor/EditorContext";
 
+export interface UserTextProps {}
+
 const Text: React.FC = () => {
   const { editorMode } = useEditorContext();
   return <TextOrInput editorMode={editorMode} />;

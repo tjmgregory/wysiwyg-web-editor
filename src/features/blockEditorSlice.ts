@@ -1,29 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 import Block from "../commmon/Block";
-import blockToComponent from "../commmon/BlockToComponent";
 import get from "lodash.get";
+import { UserBoxProps } from "../components/Block/Box";
+import { UserTextProps } from "../components/Block/Text";
 
-export interface BlockState<T extends Block> {
+type Blocks =
+  | {
+      block: Block.Box;
+      props: UserBoxProps;
+    }
+  | {
+      block: Block.Text;
+      props: UserTextProps;
+    };
+
+export type BlockState = {
   id: string;
-  object: T;
-  props: React.ComponentProps<typeof blockToComponent[T]>;
-  children: Record<string, BlockState<Block>>;
-}
+  children: Record<string, BlockState>;
+} & Blocks;
 
-const initialState: Record<"root", BlockState<Block.Box>> = {
+const initialState: Record<"root", BlockState> = {
   root: {
     id: "root",
-    object: Block.Box,
+    block: Block.Box,
     props: {},
     children: {},
   },
 };
 
-function newBox(): BlockState<Block.Box> {
+function newBox(): BlockState {
   return {
     id: uuid(),
-    object: Block.Box,
+    block: Block.Box,
     props: {},
     children: {},
   };
@@ -49,15 +58,15 @@ const blockEditorSlice = createSlice({
       }>
     ) {
       const box = newBox();
-      let objectState: typeof state["root"];
+      let blockState: typeof state["root"];
       if (!action.payload.parentPath) {
-        objectState = state.root;
+        blockState = state.root;
       } else {
         const realParentPath = expandBlockPath(action.payload.parentPath);
-        objectState = get(state, realParentPath);
+        blockState = get(state, realParentPath);
       }
-      objectState.children = {
-        ...objectState.children,
+      blockState.children = {
+        ...blockState.children,
         [box.id]: box,
       };
     },
