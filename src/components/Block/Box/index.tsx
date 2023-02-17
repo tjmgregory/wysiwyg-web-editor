@@ -16,7 +16,7 @@ type ParentChild = (props: {
 const mapObjectStateToComponentFactory =
   (parentPath: string) =>
   (state: BlockState): React.ReactNode => {
-    return <ReduxBlock parentPath={parentPath} id={state.id} />;
+    return <ReduxBlock key={state.id} parentPath={parentPath} id={state.id} />;
   };
 
 export const RootBox: React.FC = () => {
