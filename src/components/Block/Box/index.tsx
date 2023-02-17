@@ -1,10 +1,7 @@
 import Block from "../../../commmon/Block";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
 import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
-import {
-  addChildBlock,
-  PageBuilderState,
-} from "../../../features/pageBuilderSlice";
+import { addChildBlock, BlockState } from "../../../features/pageBuilderSlice";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
@@ -12,8 +9,8 @@ type ParentChild = (props: {
 
 const mapObjectStateToComponentFactory =
   (parentPath: string) =>
-  (state: PageBuilderState<Block>): React.ReactNode => {
-    return <Box parentPath={parentPath} id={state.id} />;
+  (state: BlockState<Block>): React.ReactNode => {
+    return <ReduxBlock parentPath={parentPath} id={state.id} />;
   };
 
 export const RootBox: React.FC = () => {
@@ -34,7 +31,7 @@ export const RootBox: React.FC = () => {
   return <Div addChild={addChild}>{children}</Div>;
 };
 
-const Box: React.FC<{ parentPath: string; id: string }> = ({
+const ReduxBlock: React.FC<{ parentPath: string; id: string }> = ({
   parentPath,
   id,
 }) => {
@@ -87,4 +84,4 @@ const childTitle: ParentChild = ({ addRight }: Parameters<ParentChild>[0]) => {
   return <h1>{addRight ? "Can add right" : "Cant add right"}</h1>;
 };
 
-export default Box;
+export default ReduxBlock;

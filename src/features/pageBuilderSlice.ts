@@ -4,14 +4,14 @@ import Block from "../commmon/Block";
 import blockToComponent from "../commmon/BlockToComponent";
 import get from "lodash.get";
 
-export interface PageBuilderState<T extends Block> {
+export interface BlockState<T extends Block> {
   id: string;
   object: T;
   props: React.ComponentProps<typeof blockToComponent[T]>;
-  children: Record<string, PageBuilderState<Block>>;
+  children: Record<string, BlockState<Block>>;
 }
 
-const initialState: Record<"root", PageBuilderState<Block.Box>> = {
+const initialState: Record<"root", BlockState<Block.Box>> = {
   root: {
     id: "root",
     object: Block.Box,
@@ -20,7 +20,7 @@ const initialState: Record<"root", PageBuilderState<Block.Box>> = {
   },
 };
 
-function newBox(): PageBuilderState<Block.Box> {
+function newBox(): BlockState<Block.Box> {
   return {
     id: uuid(),
     object: Block.Box,
