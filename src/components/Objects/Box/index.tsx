@@ -43,10 +43,9 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
   console.log(objectPath);
   const state = useAppSelector(
     (state) =>
-      get(
-        state,
-        `pageBuilder.${objectPath}`
-      ) as typeof state["pageBuilder"]["root"]
+      get(state, `pageBuilder.${objectPath}`) as
+        | typeof state["pageBuilder"]["root"]
+        | undefined
   );
   const dispatch = useAppDispatch();
 
@@ -57,6 +56,13 @@ const Box: React.FC<{ parentPath: string; id: string }> = ({
         object: Objects.Box,
       })
     );
+
+  if (!state) {
+    console.warn(
+      "Box being rendered despite lack of state - rendering nothing."
+    );
+    return null;
+  }
 
   const mapStateToComponents = mapObjectStateToComponentFactory(
     `${parentPath}.${id}`
