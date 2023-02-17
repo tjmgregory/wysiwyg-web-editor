@@ -22,18 +22,7 @@ const ReduxBlockController: React.FC<{
 export const InteractivityLayer: React.FC<
   React.PropsWithChildren<{ addChild?: () => void }>
 > = ({ addChild, children }) => {
-  return (
-    <div
-      style={{
-        width: "fit-content",
-        height: "fit-content",
-        backgroundColor: "hsla(0deg 100% 50%, 0.3)",
-      }}
-      onClick={addChild}
-    >
-      {children}
-    </div>
-  );
+  return <div onClick={addChild}>{children}</div>;
 };
 
 const ReduxInteractivityLayer: React.FC<

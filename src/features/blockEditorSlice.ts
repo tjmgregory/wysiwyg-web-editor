@@ -22,18 +22,24 @@ export type TextBlockState = SharedBlockFields & {
 
 export type BlockState = BoxBlockState | TextBlockState;
 
+const initialTextId = uuid();
 const initialState: Record<"root", BlockState> = {
   root: {
     id: "root",
     block: Block.Box,
     props: {
       style: {
-        height: "100px",
-        width: "100px",
+        display: "block",
         backgroundColor: "hotpink",
       },
     },
-    childBlocks: {},
+    childBlocks: {
+      [initialTextId]: {
+        id: initialTextId,
+        block: Block.Text,
+        props: {},
+      },
+    },
   },
 };
 
