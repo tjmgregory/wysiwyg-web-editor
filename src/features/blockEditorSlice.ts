@@ -37,8 +37,8 @@ export function collapseBlockPath(path: string) {
   return path.split(".children.").join(".");
 }
 
-const pageBuilderSlice = createSlice({
-  name: "pageBuilder",
+const blockEditorSlice = createSlice({
+  name: "blockEditor",
   initialState,
   reducers: {
     addChildBlock(
@@ -64,5 +64,5 @@ const pageBuilderSlice = createSlice({
   },
 });
 
-export const { addChildBlock } = pageBuilderSlice.actions;
-export default pageBuilderSlice.reducer;
+export const { addChildBlock } = blockEditorSlice.actions;
+export default blockEditorSlice.reducer;

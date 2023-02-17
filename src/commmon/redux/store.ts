@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pageBuilderReducer from "../../features/pageBuilderSlice";
+import blockEditorReducer from "../../features/blockEditorSlice";
 
 export const store = configureStore({
   reducer: {
-    pageBuilder: pageBuilderReducer,
+    blockEditor: blockEditorReducer,
   },
 });
 

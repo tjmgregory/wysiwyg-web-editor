@@ -1,7 +1,7 @@
 import Block from "../../../commmon/Block";
 import { useAppDispatch, useAppSelector } from "../../../commmon/redux/hooks";
 import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
-import { addChildBlock, BlockState } from "../../../features/pageBuilderSlice";
+import { addChildBlock, BlockState } from "../../../features/blockEditorSlice";
 
 type ParentChild = (props: {
   addRight?: (node: React.ReactNode) => void;
@@ -14,7 +14,7 @@ const mapObjectStateToComponentFactory =
   };
 
 export const RootBox: React.FC = () => {
-  const state = useAppSelector((state) => state.pageBuilder.root.children);
+  const state = useAppSelector((state) => state.blockEditor.root.children);
   const dispatch = useAppDispatch();
 
   const addChild = () =>
