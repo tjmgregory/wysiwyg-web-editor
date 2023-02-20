@@ -1,4 +1,4 @@
-import EditorMode from "../../commmon/EditorMode";
+import EditorMode from "../../common/EditorMode";
 import { useEditorContext } from "./EditorContext";
 import styled from "styled-components";
 import * as ToggleGroup from "@radix-ui/react-toggle-group";

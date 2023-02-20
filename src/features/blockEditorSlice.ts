@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
-import Block from "../commmon/Block";
+import Block from "../common/Block";
 import get from "lodash.get";
 import { UserBoxProps } from "../components/Block/Box";
 import { UserTextProps } from "../components/Block/Text";

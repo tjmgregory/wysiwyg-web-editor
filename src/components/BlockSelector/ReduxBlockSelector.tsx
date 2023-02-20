@@ -1,4 +1,4 @@
-import useBlockStateSelector from "../../commmon/useBlockStateSelector";
+import useBlockStateSelector from "../../common/useBlockStateSelector";
 import { BlockSelector } from ".";
 
 export const ReduxBlockSelector: React.FC<{ statePath: string }> = ({

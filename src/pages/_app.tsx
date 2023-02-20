@@ -1,6 +1,6 @@
 import { type AppType } from "next/dist/shared/lib/utils";
 import { Provider } from "react-redux";
-import { store } from "../commmon/redux/store";
+import { store } from "../common/redux/store";
 
 import "../styles/globals.css";
 

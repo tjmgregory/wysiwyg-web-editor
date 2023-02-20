@@ -1,5 +1,5 @@
 import React from "react";
-import EditorMode from "../../../commmon/EditorMode";
+import EditorMode from "../../../common/EditorMode";
 import { TextBlockState } from "../../../features/blockEditorSlice";
 import { useEditorContext } from "../../Editor/EditorContext";
 import { ReduxBlockPropController } from "../ReduxBlockPropController";

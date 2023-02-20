@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import Block from "../../commmon/Block";
-import EditorMode from "../../commmon/EditorMode";
-import { useAppDispatch } from "../../commmon/redux/hooks";
+import Block from "../../common/Block";
+import EditorMode from "../../common/EditorMode";
+import { useAppDispatch } from "../../common/redux/hooks";
 import { addChildBlock } from "../../features/blockEditorSlice";
 import { useEditorContext } from "../Editor/EditorContext";
 import { InteractivityLayer } from ".";

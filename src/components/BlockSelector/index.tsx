@@ -1,5 +1,5 @@
 import BoxBlock from "../Block/Box";
-import Block from "../../commmon/Block";
+import Block from "../../common/Block";
 import { BlockState } from "../../features/blockEditorSlice";
 import TextBlock from "../Block/Text";
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import EditorMode from "../../commmon/EditorMode";
+import EditorMode from "../../common/EditorMode";
 
 const context = React.createContext<{
   editorMode: EditorMode;

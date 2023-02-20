@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { useAppDispatch } from "../../commmon/redux/hooks";
+import { useAppDispatch } from "../../common/redux/hooks";
 import { setProp } from "../../features/blockEditorSlice";
 import { UserTextProps } from "./Text/index";
 
