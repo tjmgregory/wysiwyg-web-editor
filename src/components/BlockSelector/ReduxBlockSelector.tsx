@@ -1,5 +1,5 @@
-import useBlockStateSelector from "../../../commmon/useBlockStateSelector";
-import { BlockSelector } from "./BlockSelector";
+import useBlockStateSelector from "../../commmon/useBlockStateSelector";
+import { BlockSelector } from ".";
 
 export const ReduxBlockSelector: React.FC<{ statePath: string }> = ({
   statePath,
@@ -8,7 +8,7 @@ export const ReduxBlockSelector: React.FC<{ statePath: string }> = ({
 
   if (!state) {
     console.warn(
-      "Box being rendered despite lack of state - rendering nothing."
+      "Block being rendered despite lack of state - rendering nothing."
     );
     return null;
   }

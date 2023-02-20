@@ -1,6 +1,6 @@
 import { BoxBlockState } from "../../../features/blockEditorSlice";
-import { ChildBlockRenderer } from "./ChildBlockRenderer";
-import ReduxInteractivityLayer from "./ReduxInteracivityLayer";
+import { ChildBlockRenderer } from "../../BlockSelector/ChildBlockRenderer";
+import ReduxInteractivityLayer from "../../InteractivityLayer/ReduxInteractivityLayer";
 
 export interface UserBoxProps {
   style?: {};

@@ -1,7 +1,7 @@
-import BoxBlock from ".";
-import Block from "../../../commmon/Block";
-import { BlockState } from "../../../features/blockEditorSlice";
-import TextBlock from "../Text";
+import BoxBlock from "../Block/Box";
+import Block from "../../commmon/Block";
+import { BlockState } from "../../features/blockEditorSlice";
+import TextBlock from "../Block/Text";
 
 export const BlockSelector: React.FC<{
   state: BlockState;

@@ -1,4 +1,4 @@
-import { BoxBlockState } from "../../../features/blockEditorSlice";
+import { BoxBlockState } from "../../features/blockEditorSlice";
 import { ReduxBlockSelector } from "./ReduxBlockSelector";
 
 export const ChildBlockRenderer: React.FC<{
