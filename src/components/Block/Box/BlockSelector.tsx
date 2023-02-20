@@ -1,7 +1,7 @@
-import Box from ".";
+import BoxBlock from ".";
 import Block from "../../../commmon/Block";
 import { BlockState } from "../../../features/blockEditorSlice";
-import Text from "../Text";
+import TextBlock from "../Text";
 
 export const BlockSelector: React.FC<{
   state: BlockState;
@@ -9,9 +9,9 @@ export const BlockSelector: React.FC<{
 }> = ({ state, statePath }) => {
   switch (state.block) {
     case Block.Box:
-      return <Box state={state} statePath={statePath} />;
+      return <BoxBlock state={state} statePath={statePath} />;
     case Block.Text:
-      return <Text state={state} statePath={statePath} />;
+      return <TextBlock state={state} statePath={statePath} />;
     default:
       return null;
   }
