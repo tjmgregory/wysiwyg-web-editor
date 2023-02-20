@@ -4,7 +4,7 @@ import EditorMode from "../../common/EditorMode";
 import { useAppDispatch } from "../../common/redux/hooks";
 import { addChildBlock } from "../../features/blockEditorSlice";
 import { useEditorContext } from "../Editor/EditorContext";
-import { InteractivityLayer } from ".";
+import InteractivityLayer from ".";
 
 const ReduxBlockController: React.FC<{
   statePath: string;
